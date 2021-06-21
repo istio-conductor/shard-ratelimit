@@ -1,0 +1,56 @@
+replicaCount: 10
+env:
+  - name: GOGC
+    value: "20000"
+watch: /etc/ratelimit/configs
+useStaticReplicas: false
+port: 8081
+httpPort: 8080
+log: info
+configmap: ratelimit
+preStopSeconds: 30
+image:
+  repository: istioconductor/ratelimit
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: "latest"
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+podAnnotations:
+  prometheus.io/path: /metrics
+  prometheus.io/port: "8080"
+  prometheus.io/scrape: "true"
+
+podSecurityContext: {}
+
+securityContext: {}
+
+service:
+  type: ClusterIP
+  port: 80
+
+resources:
+  limits:
+    cpu: "32"
+    memory: "100Gi"
+  requests:
+    cpu: "16"
+    memory: "20Gi"
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}

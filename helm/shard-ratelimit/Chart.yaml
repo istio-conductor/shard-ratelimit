@@ -1,0 +1,4 @@
+apiVersion: v2
+name: shard-ratelimit
+type: application
+version: 0.1.0
